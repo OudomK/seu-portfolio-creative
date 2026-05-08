@@ -99,10 +99,12 @@ const projects = [
 ];
 
 function Portfolio() {
+  const [cvOpen, setCvOpen] = useState(false);
+  const openCv = () => setCvOpen(true);
   return (
     <div className="min-h-screen text-foreground">
-      <Navbar />
-      <Hero />
+      <Navbar onViewCv={openCv} />
+      <Hero onViewCv={openCv} />
       <About />
       <Skills />
       <Experience />
@@ -110,11 +112,55 @@ function Portfolio() {
       <PortfolioSection />
       <Contact />
       <Footer />
+      {cvOpen && <CvModal onClose={() => setCvOpen(false)} />}
     </div>
   );
 }
 
-function Navbar() {
+function CvModal({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[100] bg-background/90 backdrop-blur-md flex flex-col animate-fade-up">
+      <div className="flex items-center justify-between px-6 h-14 border-b border-border">
+        <div className="flex items-center gap-2">
+          <FileText size={18} className="text-gold" />
+          <span className="font-semibold">Leab Mengseu — CV</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <a
+            href={CV_URL}
+            download
+            className="hidden sm:inline-flex items-center gap-2 text-xs bg-gold text-primary-foreground px-3 py-2 rounded-full font-medium hover:opacity-90"
+          >
+            <Download size={14} /> Download
+          </a>
+          <button
+            onClick={onClose}
+            className="w-9 h-9 grid place-items-center rounded-full border border-border hover:bg-secondary"
+            aria-label="Close"
+          >
+            <X size={18} />
+          </button>
+        </div>
+      </div>
+      <div className="flex-1 bg-black/40">
+        <object data={CV_URL} type="application/pdf" className="w-full h-full">
+          <div className="h-full grid place-items-center text-center p-8">
+            <div>
+              <p className="text-muted-foreground mb-4">
+                CV preview not available. Please upload <code className="text-gold">cv.pdf</code> to the public folder.
+              </p>
+              <a href={CV_URL} download className="inline-flex items-center gap-2 bg-gold text-primary-foreground px-5 py-3 rounded-full font-medium">
+                <Download size={16} /> Download CV
+              </a>
+            </div>
+          </div>
+        </object>
+      </div>
+    </div>
+  );
+}
+
+function Navbar({ onViewCv }: { onViewCv: () => void }) {
   const [open, setOpen] = useState(false);
   return (
     <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/70 border-b border-border">
