@@ -3,8 +3,10 @@ import { useState } from "react";
 import profileImg from "@/assets/profile.jpg";
 import {
   Mail, Phone, MapPin, Instagram, Send, Briefcase, GraduationCap,
-  Palette, Code2, Wrench, Languages, Sparkles, Download,
+  Palette, Code2, Wrench, Languages, Sparkles, Download, FileText, X,
 } from "lucide-react";
+
+const CV_URL = "/cv.pdf";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -97,10 +99,12 @@ const projects = [
 ];
 
 function Portfolio() {
+  const [cvOpen, setCvOpen] = useState(false);
+  const openCv = () => setCvOpen(true);
   return (
     <div className="min-h-screen text-foreground">
-      <Navbar />
-      <Hero />
+      <Navbar onViewCv={openCv} />
+      <Hero onViewCv={openCv} />
       <About />
       <Skills />
       <Experience />
@@ -108,11 +112,55 @@ function Portfolio() {
       <PortfolioSection />
       <Contact />
       <Footer />
+      {cvOpen && <CvModal onClose={() => setCvOpen(false)} />}
     </div>
   );
 }
 
-function Navbar() {
+function CvModal({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[100] bg-background/90 backdrop-blur-md flex flex-col animate-fade-up">
+      <div className="flex items-center justify-between px-6 h-14 border-b border-border">
+        <div className="flex items-center gap-2">
+          <FileText size={18} className="text-gold" />
+          <span className="font-semibold">Leab Mengseu — CV</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <a
+            href={CV_URL}
+            download
+            className="hidden sm:inline-flex items-center gap-2 text-xs bg-gold text-primary-foreground px-3 py-2 rounded-full font-medium hover:opacity-90"
+          >
+            <Download size={14} /> Download
+          </a>
+          <button
+            onClick={onClose}
+            className="w-9 h-9 grid place-items-center rounded-full border border-border hover:bg-secondary"
+            aria-label="Close"
+          >
+            <X size={18} />
+          </button>
+        </div>
+      </div>
+      <div className="flex-1 bg-black/40">
+        <object data={CV_URL} type="application/pdf" className="w-full h-full">
+          <div className="h-full grid place-items-center text-center p-8">
+            <div>
+              <p className="text-muted-foreground mb-4">
+                CV preview not available. Please upload <code className="text-gold">cv.pdf</code> to the public folder.
+              </p>
+              <a href={CV_URL} download className="inline-flex items-center gap-2 bg-gold text-primary-foreground px-5 py-3 rounded-full font-medium">
+                <Download size={16} /> Download CV
+              </a>
+            </div>
+          </div>
+        </object>
+      </div>
+    </div>
+  );
+}
+
+function Navbar({ onViewCv }: { onViewCv: () => void }) {
   const [open, setOpen] = useState(false);
   return (
     <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/70 border-b border-border">
@@ -128,6 +176,14 @@ function Navbar() {
               </a>
             </li>
           ))}
+          <li>
+            <button
+              onClick={onViewCv}
+              className="inline-flex items-center gap-1.5 bg-gold text-primary-foreground px-4 py-2 rounded-full font-medium text-xs hover:opacity-90 transition shadow-[var(--shadow-gold)]"
+            >
+              <FileText size={14} /> View CV
+            </button>
+          </li>
         </ul>
         <button onClick={() => setOpen(!open)} className="md:hidden text-gold" aria-label="menu">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -144,13 +200,21 @@ function Navbar() {
               </a>
             </li>
           ))}
+          <li>
+            <button
+              onClick={() => { setOpen(false); onViewCv(); }}
+              className="w-full inline-flex items-center justify-center gap-1.5 bg-gold text-primary-foreground px-4 py-2 rounded-full font-medium text-sm"
+            >
+              <FileText size={14} /> View CV
+            </button>
+          </li>
         </ul>
       )}
     </header>
   );
 }
 
-function Hero() {
+function Hero({ onViewCv }: { onViewCv: () => void }) {
   return (
     <section id="home" className="pt-32 pb-20 px-6">
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
@@ -172,7 +236,10 @@ function Hero() {
             <a href="mailto:leabmengseu1212@gmail.com" className="inline-flex items-center gap-2 bg-gold text-primary-foreground px-5 py-3 rounded-full font-medium hover:opacity-90 transition shadow-[var(--shadow-gold)]">
               <Mail size={18} /> Hire Me
             </a>
-            <a href="#portfolio" className="inline-flex items-center gap-2 border border-gold/40 text-gold px-5 py-3 rounded-full font-medium hover:bg-gold/10 transition">
+            <button onClick={onViewCv} className="inline-flex items-center gap-2 border border-gold/40 text-gold px-5 py-3 rounded-full font-medium hover:bg-gold/10 transition">
+              <FileText size={18} /> View CV
+            </button>
+            <a href="#portfolio" className="inline-flex items-center gap-2 border border-border text-foreground px-5 py-3 rounded-full font-medium hover:bg-secondary transition">
               <Sparkles size={18} /> View Work
             </a>
           </div>
