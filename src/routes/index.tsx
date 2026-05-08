@@ -3,8 +3,10 @@ import { useState } from "react";
 import profileImg from "@/assets/profile.jpg";
 import {
   Mail, Phone, MapPin, Instagram, Send, Briefcase, GraduationCap,
-  Palette, Code2, Wrench, Languages, Sparkles, Download,
+  Palette, Code2, Wrench, Languages, Sparkles, Download, FileText, X,
 } from "lucide-react";
+
+const CV_URL = "/cv.pdf";
 
 export const Route = createFileRoute("/")({
   head: () => ({
