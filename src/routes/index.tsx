@@ -176,6 +176,14 @@ function Navbar({ onViewCv }: { onViewCv: () => void }) {
               </a>
             </li>
           ))}
+          <li>
+            <button
+              onClick={onViewCv}
+              className="inline-flex items-center gap-1.5 bg-gold text-primary-foreground px-4 py-2 rounded-full font-medium text-xs hover:opacity-90 transition shadow-[var(--shadow-gold)]"
+            >
+              <FileText size={14} /> View CV
+            </button>
+          </li>
         </ul>
         <button onClick={() => setOpen(!open)} className="md:hidden text-gold" aria-label="menu">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -192,13 +200,21 @@ function Navbar({ onViewCv }: { onViewCv: () => void }) {
               </a>
             </li>
           ))}
+          <li>
+            <button
+              onClick={() => { setOpen(false); onViewCv(); }}
+              className="w-full inline-flex items-center justify-center gap-1.5 bg-gold text-primary-foreground px-4 py-2 rounded-full font-medium text-sm"
+            >
+              <FileText size={14} /> View CV
+            </button>
+          </li>
         </ul>
       )}
     </header>
   );
 }
 
-function Hero() {
+function Hero({ onViewCv }: { onViewCv: () => void }) {
   return (
     <section id="home" className="pt-32 pb-20 px-6">
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
