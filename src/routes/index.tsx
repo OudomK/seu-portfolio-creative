@@ -236,7 +236,10 @@ function Hero({ onViewCv }: { onViewCv: () => void }) {
             <a href="mailto:leabmengseu1212@gmail.com" className="inline-flex items-center gap-2 bg-gold text-primary-foreground px-5 py-3 rounded-full font-medium hover:opacity-90 transition shadow-[var(--shadow-gold)]">
               <Mail size={18} /> Hire Me
             </a>
-            <a href="#portfolio" className="inline-flex items-center gap-2 border border-gold/40 text-gold px-5 py-3 rounded-full font-medium hover:bg-gold/10 transition">
+            <button onClick={onViewCv} className="inline-flex items-center gap-2 border border-gold/40 text-gold px-5 py-3 rounded-full font-medium hover:bg-gold/10 transition">
+              <FileText size={18} /> View CV
+            </button>
+            <a href="#portfolio" className="inline-flex items-center gap-2 border border-border text-foreground px-5 py-3 rounded-full font-medium hover:bg-secondary transition">
               <Sparkles size={18} /> View Work
             </a>
           </div>
