@@ -1,14 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import profileImg from "@/assets/profile.jpg";
-import Cv from  "../assets/CV LEAB MENG SEU .pdf";
+// import CV_URL from  "../assets/CV_URL LEAB MENG SEU .pdf";
+import cvFile from "@/assets/CV LEAB MENG SEU .pdf?url";
 
 import {
   Mail, Phone, MapPin, Instagram, Send, Briefcase, GraduationCap,
   Palette, Code2, Wrench, Languages, Sparkles, Download, FileText, X,
 } from "lucide-react";
 
-// const CV_URL = "/cv.pdf";
+const CV_URL = cvFile;
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -104,12 +105,12 @@ const projects = [
 ];
 
 function Portfolio() {
-  const [cvOpen, setCvOpen] = useState(false);
-  const openCv = () => setCvOpen(true);
+  const [CV_URLOpen, setCV_URLOpen] = useState(false);
+  const openCV_URL = () => setCV_URLOpen(true);
   return (
     <div className="min-h-screen text-foreground">
-      <Navbar onViewCv={openCv} />
-      <Hero onViewCv={openCv} />
+      <Navbar onViewCV_URL={openCV_URL} />
+      <Hero onViewCV_URL={openCV_URL} />
       <About />
       <Skills />
       <Experience />
@@ -117,13 +118,13 @@ function Portfolio() {
       <PortfolioSection />
       <Contact />
       <Footer />
-      {cvOpen && <CvModal onClose={() => setCvOpen(false)} />}
+      {CV_URLOpen && <CV_URLModal onClose={() => setCV_URLOpen(false)} />}
     </div>
   );
 }
 
-// ✅ CV Modal — view inline + download button
-function CvModal({ onClose }: { onClose: () => void }) {
+// ✅ CV_URL Modal — view inline + download button
+function CV_URLModal({ onClose }: { onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-[100] bg-background/90 backdrop-blur-md flex flex-col animate-fade-up">
       <div className="flex items-center justify-between px-6 h-14 border-b border-border">
@@ -133,8 +134,8 @@ function CvModal({ onClose }: { onClose: () => void }) {
         </div>
         <div className="flex items-center gap-2">
           <a
-            href={Cv}
-            download="Leab_Mengseu_CV.pdf"
+            href={CV_URL}
+            download="Leab_Mengseu_CV_URL.pdf"
             className="inline-flex items-center gap-2 text-xs bg-gold text-primary-foreground px-3 py-2 rounded-full font-medium hover:opacity-90 transition"
           >
             <Download size={14} /> Download CV
@@ -142,7 +143,7 @@ function CvModal({ onClose }: { onClose: () => void }) {
           <button
             onClick={onClose}
             className="w-9 h-9 grid place-items-center rounded-full border border-border hover:bg-secondary"
-            aria-label="Close CV modal"
+            aria-label="Close CV_URL modal"
           >
             <X size={18} />
           </button>
@@ -152,8 +153,8 @@ function CvModal({ onClose }: { onClose: () => void }) {
       {/* ✅ PDF viewer — renders inline in browser */}
       <div className="flex-1 bg-black/40">
         <iframe
-          src={Cv}
-          title="Leab Mengseu CV"
+          src={CV_URL}
+          title="Leab Mengseu CV_URL"
           className="w-full h-full border-0"
         >
           {/* Fallback for browsers that can't render the iframe */}
@@ -163,11 +164,11 @@ function CvModal({ onClose }: { onClose: () => void }) {
                 Your browser cannot display the PDF inline.
               </p>
               <a
-                href={Cv}
-                download="Leab_Mengseu_CV.pdf"
+                href={CV_URL}
+                download="Leab_Mengseu_CV_URL.pdf"
                 className="inline-flex items-center gap-2 bg-gold text-primary-foreground px-5 py-3 rounded-full font-medium"
               >
-                <Download size={16} /> Download CV instead
+                <Download size={16} /> Download CV_URL instead
               </a>
             </div>
           </div>
@@ -177,7 +178,7 @@ function CvModal({ onClose }: { onClose: () => void }) {
   );
 }
 
-function Navbar({ onViewCv }: { onViewCv: () => void }) {
+function Navbar({ onViewCV_URL }: { onViewCV_URL: () => void }) {
   const [open, setOpen] = useState(false);
   return (
     <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/70 border-b border-border">
@@ -211,7 +212,7 @@ function Navbar({ onViewCv }: { onViewCv: () => void }) {
           ))}
           <li>
             <button
-              onClick={() => { setOpen(false); onViewCv(); }}
+              onClick={() => { setOpen(false); onViewCV_URL(); }}
               className="w-full inline-flex items-center justify-center gap-1.5 bg-gold text-primary-foreground px-4 py-2 rounded-full font-medium text-sm"
             >
               <FileText size={14} /> View CV
@@ -223,7 +224,7 @@ function Navbar({ onViewCv }: { onViewCv: () => void }) {
   );
 }
 
-function Hero({ onViewCv }: { onViewCv: () => void }) {
+function Hero({ onViewCV_URL }: { onViewCV_URL: () => void }) {
   return (
     <section id="home" className="pt-32 pb-20 px-6">
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
@@ -249,15 +250,15 @@ function Hero({ onViewCv }: { onViewCv: () => void }) {
               <Mail size={18} /> Hire Me
             </a>
             <button
-              onClick={onViewCv}
+              onClick={onViewCV_URL}
               className="inline-flex items-center gap-2 border border-gold/40 text-gold px-5 py-3 rounded-full font-medium hover:bg-gold/10 transition"
             >
               <FileText size={18} /> View CV
             </button>
             {/* ✅ Direct download button in hero */}
             <a
-              href={Cv}
-              download="Leab_Mengseu_CV.pdf"
+              href={CV_URL}
+              download="Leab_Mengseu_CV_URL.pdf"
               className="inline-flex items-center gap-2 border border-border text-foreground px-5 py-3 rounded-full font-medium hover:bg-secondary transition"
             >
               <Download size={18} /> Download CV
@@ -511,10 +512,10 @@ function Contact() {
             <ContactRow icon={Mail} label="Email" value="leabmengseu1212@gmail.com" href="mailto:leabmengseu1212@gmail.com" />
             <ContactRow icon={MapPin} label="Location" value="Kampong Cham Province, Cambodia" />
             <ContactRow icon={Instagram} label="Social" value="@seu20012" href="https://instagram.com/seu20012" />
-            {/* ✅ CV download row in contact section */}
+            {/* ✅ CV_URL download row in contact section */}
             <a
-              href={Cv}
-              download="Leab_Mengseu_CV.pdf"
+              href={CV_URL}
+              download="Leab_Mengseu_CV_URL.pdf"
               className="flex items-start gap-4 bg-card border border-gold/40 rounded-xl p-5 hover:border-gold transition group"
             >
               <div className="w-11 h-11 rounded-lg bg-gold/15 grid place-items-center text-gold shrink-0">
@@ -522,7 +523,7 @@ function Contact() {
               </div>
               <div>
                 <p className="text-xs text-muted-foreground uppercase tracking-wider">Curriculum Vitae</p>
-                <p className="text-sm mt-0.5 group-hover:text-gold transition">Download my CV (PDF)</p>
+                <p className="text-sm mt-0.5 group-hover:text-gold transition">Download my CV_URL (PDF)</p>
               </div>
             </a>
           </div>
