@@ -1,12 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import profileImg from "@/assets/profile.jpg";
+import Cv from  "../assets/CV LEAB MENG SEU .pdf";
+
 import {
   Mail, Phone, MapPin, Instagram, Send, Briefcase, GraduationCap,
   Palette, Code2, Wrench, Languages, Sparkles, Download, FileText, X,
 } from "lucide-react";
 
-const CV_URL = "/cv.pdf";
+// const CV_URL = "/cv.pdf";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -35,17 +37,20 @@ const designSkills = [
   { name: "Video Editing", value: 70 },
   { name: "Web Design", value: 85 },
 ];
+
 const itSkills = [
   { name: "Advanced Excel", value: 85 },
   { name: "Advanced Word", value: 70 },
   { name: "Computer Repairing", value: 85 },
   { name: "Web Development", value: 85 },
 ];
-const tools = [
+
+const tools = [   
   "Adobe Photoshop", "Adobe Illustrator", "CorelDRAW",
   "Adobe Premiere Pro", "After Effects", "HTML", "CSS",
   "JavaScript", "C/C++", "MS Word", "MS Excel", "MS Access",
 ];
+
 const softSkills = ["Communications", "Teamwork", "Time Management", "Problem Solving", "Adaptable"];
 const languages = [
   { name: "Khmer", level: "Native" },
@@ -117,6 +122,7 @@ function Portfolio() {
   );
 }
 
+// ✅ CV Modal — view inline + download button
 function CvModal({ onClose }: { onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-[100] bg-background/90 backdrop-blur-md flex flex-col animate-fade-up">
@@ -127,34 +133,45 @@ function CvModal({ onClose }: { onClose: () => void }) {
         </div>
         <div className="flex items-center gap-2">
           <a
-            href={CV_URL}
-            download
-            className="hidden sm:inline-flex items-center gap-2 text-xs bg-gold text-primary-foreground px-3 py-2 rounded-full font-medium hover:opacity-90"
+            href={Cv}
+            download="Leab_Mengseu_CV.pdf"
+            className="inline-flex items-center gap-2 text-xs bg-gold text-primary-foreground px-3 py-2 rounded-full font-medium hover:opacity-90 transition"
           >
-            <Download size={14} /> Download
+            <Download size={14} /> Download CV
           </a>
           <button
             onClick={onClose}
             className="w-9 h-9 grid place-items-center rounded-full border border-border hover:bg-secondary"
-            aria-label="Close"
+            aria-label="Close CV modal"
           >
             <X size={18} />
           </button>
         </div>
       </div>
+
+      {/* ✅ PDF viewer — renders inline in browser */}
       <div className="flex-1 bg-black/40">
-        <object data={CV_URL} type="application/pdf" className="w-full h-full">
+        <iframe
+          src={Cv}
+          title="Leab Mengseu CV"
+          className="w-full h-full border-0"
+        >
+          {/* Fallback for browsers that can't render the iframe */}
           <div className="h-full grid place-items-center text-center p-8">
             <div>
               <p className="text-muted-foreground mb-4">
-                CV preview not available. Please upload <code className="text-gold">cv.pdf</code> to the public folder.
+                Your browser cannot display the PDF inline.
               </p>
-              <a href={CV_URL} download className="inline-flex items-center gap-2 bg-gold text-primary-foreground px-5 py-3 rounded-full font-medium">
-                <Download size={16} /> Download CV
+              <a
+                href={Cv}
+                download="Leab_Mengseu_CV.pdf"
+                className="inline-flex items-center gap-2 bg-gold text-primary-foreground px-5 py-3 rounded-full font-medium"
+              >
+                <Download size={16} /> Download CV instead
               </a>
             </div>
           </div>
-        </object>
+        </iframe>
       </div>
     </div>
   );
@@ -176,14 +193,6 @@ function Navbar({ onViewCv }: { onViewCv: () => void }) {
               </a>
             </li>
           ))}
-          <li>
-            <button
-              onClick={onViewCv}
-              className="inline-flex items-center gap-1.5 bg-gold text-primary-foreground px-4 py-2 rounded-full font-medium text-xs hover:opacity-90 transition shadow-[var(--shadow-gold)]"
-            >
-              <FileText size={14} /> View CV
-            </button>
-          </li>
         </ul>
         <button onClick={() => setOpen(!open)} className="md:hidden text-gold" aria-label="menu">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -233,14 +242,25 @@ function Hero({ onViewCv }: { onViewCv: () => void }) {
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="mailto:leabmengseu1212@gmail.com" className="inline-flex items-center gap-2 bg-gold text-primary-foreground px-5 py-3 rounded-full font-medium hover:opacity-90 transition shadow-[var(--shadow-gold)]">
+            <a
+              href="mailto:leabmengseu1212@gmail.com"
+              className="inline-flex items-center gap-2 bg-gold text-primary-foreground px-5 py-3 rounded-full font-medium hover:opacity-90 transition shadow-[var(--shadow-gold)]"
+            >
               <Mail size={18} /> Hire Me
             </a>
-            <button onClick={onViewCv} className="inline-flex items-center gap-2 border border-gold/40 text-gold px-5 py-3 rounded-full font-medium hover:bg-gold/10 transition">
+            <button
+              onClick={onViewCv}
+              className="inline-flex items-center gap-2 border border-gold/40 text-gold px-5 py-3 rounded-full font-medium hover:bg-gold/10 transition"
+            >
               <FileText size={18} /> View CV
             </button>
-            <a href="#portfolio" className="inline-flex items-center gap-2 border border-border text-foreground px-5 py-3 rounded-full font-medium hover:bg-secondary transition">
-              <Sparkles size={18} /> View Work
+            {/* ✅ Direct download button in hero */}
+            <a
+              href={Cv}
+              download="Leab_Mengseu_CV.pdf"
+              className="inline-flex items-center gap-2 border border-border text-foreground px-5 py-3 rounded-full font-medium hover:bg-secondary transition"
+            >
+              <Download size={18} /> Download CV
             </a>
           </div>
 
@@ -328,7 +348,9 @@ function Skills() {
           <InfoCard icon={Sparkles} title="Soft Skills">
             <ul className="space-y-1.5 text-sm text-muted-foreground">
               {softSkills.map((s) => (
-                <li key={s} className="flex items-center gap-2"><span className="w-1.5 h-1.5 bg-gold rounded-full" />{s}</li>
+                <li key={s} className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-gold rounded-full" />{s}
+                </li>
               ))}
             </ul>
           </InfoCard>
@@ -336,7 +358,8 @@ function Skills() {
             <ul className="space-y-2 text-sm">
               {languages.map((l) => (
                 <li key={l.name} className="flex justify-between border-b border-border/50 pb-1.5">
-                  <span>{l.name}</span><span className="text-gold text-xs">{l.level}</span>
+                  <span>{l.name}</span>
+                  <span className="text-gold text-xs">{l.level}</span>
                 </li>
               ))}
             </ul>
@@ -351,17 +374,23 @@ function SkillCard({ icon: Icon, title, skills }: { icon: any; title: string; sk
   return (
     <div className="bg-card border border-border rounded-2xl p-6">
       <div className="flex items-center gap-2 mb-5">
-        <div className="w-9 h-9 rounded-lg bg-gold/15 grid place-items-center text-gold"><Icon size={18} /></div>
+        <div className="w-9 h-9 rounded-lg bg-gold/15 grid place-items-center text-gold">
+          <Icon size={18} />
+        </div>
         <h3 className="font-semibold">{title}</h3>
       </div>
       <div className="space-y-4">
         {skills.map((s) => (
           <div key={s.name}>
             <div className="flex justify-between text-sm mb-1.5">
-              <span>{s.name}</span><span className="text-gold">{s.value}%</span>
+              <span>{s.name}</span>
+              <span className="text-gold">{s.value}%</span>
             </div>
             <div className="h-2 bg-secondary rounded-full overflow-hidden">
-              <div className="h-full rounded-full bg-[var(--gradient-gold)] animate-fill-bar" style={{ width: `${s.value}%` }} />
+              <div
+                className="h-full rounded-full bg-[var(--gradient-gold)] animate-fill-bar"
+                style={{ width: `${s.value}%` }}
+              />
             </div>
           </div>
         ))}
@@ -374,7 +403,9 @@ function InfoCard({ icon: Icon, title, children }: { icon: any; title: string; c
   return (
     <div className="bg-card border border-border rounded-2xl p-6">
       <div className="flex items-center gap-2 mb-4">
-        <div className="w-9 h-9 rounded-lg bg-gold/15 grid place-items-center text-gold"><Icon size={18} /></div>
+        <div className="w-9 h-9 rounded-lg bg-gold/15 grid place-items-center text-gold">
+          <Icon size={18} />
+        </div>
         <h3 className="font-semibold">{title}</h3>
       </div>
       {children}
@@ -399,7 +430,9 @@ function Timeline({ items, icon: Icon }: { items: any[]; icon: any }) {
               {item.bullets && (
                 <ul className="mt-3 space-y-1.5 text-sm text-muted-foreground">
                   {item.bullets.map((b: string) => (
-                    <li key={b} className="flex gap-2"><span className="text-gold">▸</span>{b}</li>
+                    <li key={b} className="flex gap-2">
+                      <span className="text-gold">▸</span>{b}
+                    </li>
                   ))}
                 </ul>
               )}
@@ -444,7 +477,10 @@ function PortfolioSection() {
         <SectionHeader eyebrow="Portfolio" title="Selected work" />
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
           {projects.map((p) => (
-            <div key={p.title} className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-gold/60 transition-all hover:-translate-y-1">
+            <div
+              key={p.title}
+              className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-gold/60 transition-all hover:-translate-y-1"
+            >
               <div className={`aspect-video bg-gradient-to-br ${p.color} relative`}>
                 <div className="absolute inset-0 grid place-items-center text-5xl font-bold text-foreground/20">
                   {p.tag.slice(0, 2).toUpperCase()}
@@ -475,15 +511,49 @@ function Contact() {
             <ContactRow icon={Mail} label="Email" value="leabmengseu1212@gmail.com" href="mailto:leabmengseu1212@gmail.com" />
             <ContactRow icon={MapPin} label="Location" value="Kampong Cham Province, Cambodia" />
             <ContactRow icon={Instagram} label="Social" value="@seu20012" href="https://instagram.com/seu20012" />
+            {/* ✅ CV download row in contact section */}
+            <a
+              href={Cv}
+              download="Leab_Mengseu_CV.pdf"
+              className="flex items-start gap-4 bg-card border border-gold/40 rounded-xl p-5 hover:border-gold transition group"
+            >
+              <div className="w-11 h-11 rounded-lg bg-gold/15 grid place-items-center text-gold shrink-0">
+                <Download size={18} />
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground uppercase tracking-wider">Curriculum Vitae</p>
+                <p className="text-sm mt-0.5 group-hover:text-gold transition">Download my CV (PDF)</p>
+              </div>
+            </a>
           </div>
           <form
             onSubmit={(e) => { e.preventDefault(); setSent(true); }}
             className="bg-card border border-border rounded-2xl p-6 space-y-4"
           >
-            <input required maxLength={100} placeholder="Your name" className="w-full bg-input border border-border rounded-lg px-4 py-3 text-sm focus:border-gold outline-none" />
-            <input required type="email" maxLength={255} placeholder="Email address" className="w-full bg-input border border-border rounded-lg px-4 py-3 text-sm focus:border-gold outline-none" />
-            <textarea required maxLength={1000} rows={5} placeholder="Your message..." className="w-full bg-input border border-border rounded-lg px-4 py-3 text-sm focus:border-gold outline-none resize-none" />
-            <button type="submit" className="w-full inline-flex items-center justify-center gap-2 bg-gold text-primary-foreground px-5 py-3 rounded-lg font-medium hover:opacity-90 transition">
+            <input
+              required
+              maxLength={100}
+              placeholder="Your name"
+              className="w-full bg-input border border-border rounded-lg px-4 py-3 text-sm focus:border-gold outline-none"
+            />
+            <input
+              required
+              type="email"
+              maxLength={255}
+              placeholder="Email address"
+              className="w-full bg-input border border-border rounded-lg px-4 py-3 text-sm focus:border-gold outline-none"
+            />
+            <textarea
+              required
+              maxLength={1000}
+              rows={5}
+              placeholder="Your message..."
+              className="w-full bg-input border border-border rounded-lg px-4 py-3 text-sm focus:border-gold outline-none resize-none"
+            />
+            <button
+              type="submit"
+              className="w-full inline-flex items-center justify-center gap-2 bg-gold text-primary-foreground px-5 py-3 rounded-lg font-medium hover:opacity-90 transition"
+            >
               <Send size={16} /> {sent ? "Thanks! I'll be in touch." : "Send Message"}
             </button>
           </form>
@@ -496,7 +566,9 @@ function Contact() {
 function ContactRow({ icon: Icon, label, value, href }: { icon: any; label: string; value: string; href?: string }) {
   const inner = (
     <div className="flex items-start gap-4 bg-card border border-border rounded-xl p-5 hover:border-gold/60 transition">
-      <div className="w-11 h-11 rounded-lg bg-gold/15 grid place-items-center text-gold shrink-0"><Icon size={18} /></div>
+      <div className="w-11 h-11 rounded-lg bg-gold/15 grid place-items-center text-gold shrink-0">
+        <Icon size={18} />
+      </div>
       <div>
         <p className="text-xs text-muted-foreground uppercase tracking-wider">{label}</p>
         <p className="text-sm mt-0.5 break-all">{value}</p>
